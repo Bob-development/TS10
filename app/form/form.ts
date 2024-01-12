@@ -1,8 +1,11 @@
 import { IComponent } from "../../src/interfaces";
 
-import { Component } from "../../src/core";
+import { Component, render } from "../../src/core";
 import { Button } from "../../components/button/button";
-import { Input } from "../../components/input/input";
+import { Reg } from "../../schemas/registration/reg";
+import { LogIn } from "../../schemas/login/login";
+
+import { app } from "../../src/main";
 
 import './form.css'
 
@@ -22,12 +25,22 @@ export class Form implements IComponent{
 
         this.registrBtn = new Button({
             className: 'register-btn',
-            textContent: 'Reg'
+            textContent: 'Reg',
+            events: {
+                click: () => {
+                    render(app, new Reg().getComponent())
+                }
+            }
         })
 
         this.loginBtn = new Button({
             className: 'login-btn',
-            textContent: 'Log'
+            textContent: 'Log',
+            events: {
+                click: () => {
+                    render(app, new LogIn().getComponent())
+                }
+            }
         })
 
         this.component = new Component({

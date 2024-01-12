@@ -1,11 +1,15 @@
 import { IComponent } from "../../src/interfaces";
 
-import { Component } from "../../src/core";
+import { Component, render} from "../../src/core";
 import { Button } from "../../components/button/button";
 import { Input } from "../../components/input/input";
+import { Spinner } from "../../components/spinner/spinner";
+import { LogIn } from "../login/login";
+import { Shop } from "../../app/shop/shop";
 
 import { userData } from "../../utils/userData";
 import { specialSymbols, lowerCaseSymbols, upperCaseSymbols } from "../../utils/getSymbols";
+import { app } from "../../src/main";
 
 import './reg.css'
 
@@ -14,6 +18,9 @@ export class Reg implements IComponent{
     private loginInput: Input;
     private passInput: Input;
     private send: Button;
+    private adminLogin: string = sessionStorage.getItem("adminLogin");
+    private adminPass: string = sessionStorage.getItem("adminPass");
+    private isGuest: boolean;
     
     constructor(){        
         this.loginInput = new Input({
@@ -51,10 +58,25 @@ export class Reg implements IComponent{
         const login = this.validateLogin(log);
         const password = this.validatePassword(pass);
 
-        if(login && password){
-            //add to session storage
-            
-        }
+        
+        if(log === this.adminLogin && pass === this.adminPass){
+          return alert("This acc has been created")
+        }else if(login && password){
+          sessionStorage.setItem("guestLogin", log);
+          sessionStorage.setItem("guestPass", pass);
+          
+          this.isGuest = true;
+          
+          render(app, new Spinner().getComponent())
+
+          setTimeout(() => {
+            render(app, new Shop().getComponent());
+          }, 2000)
+      }
+    }
+
+    getIsGuest(){
+      return this.isGuest;
     }
 
     private validateLogin(login: string) {
