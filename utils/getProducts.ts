@@ -1,7 +1,7 @@
 import { Product } from "../schemas/product/product";
 
-export const getProducts = (isAdmin: boolean) => {
-  const products = [
+export const getProducts = (isAdmin: boolean, isDelete?: boolean, startPoint?: number) => {
+  let products = [
     new Product(
       "0001",
       "product1",
@@ -12,7 +12,7 @@ export const getProducts = (isAdmin: boolean) => {
       "man1",
       "public/images/image.png",
       isAdmin
-    ).getComponent(),
+    ),
     new Product(
       "0002",
       "product2",
@@ -23,7 +23,7 @@ export const getProducts = (isAdmin: boolean) => {
       "man2",
       "public/images/image.png",
       isAdmin
-    ).getComponent(),
+    ),
     new Product(
       "0003",
       "product3",
@@ -34,7 +34,7 @@ export const getProducts = (isAdmin: boolean) => {
       "man3",
       "public/images/image.png",
       isAdmin
-    ).getComponent(),
+    ),
     new Product(
       "0004",
       "product4",
@@ -45,7 +45,7 @@ export const getProducts = (isAdmin: boolean) => {
       "man4",
       "public/images/image.png",
       isAdmin
-    ).getComponent(),
+    ),
     new Product(
       "0005",
       "product5",
@@ -56,7 +56,7 @@ export const getProducts = (isAdmin: boolean) => {
       "man5",
       "public/images/image.png",
       isAdmin
-    ).getComponent(),
+    ),
     new Product(
       "0006",
       "product6",
@@ -67,7 +67,7 @@ export const getProducts = (isAdmin: boolean) => {
       "man6",
       "public/images/image.png",
       isAdmin
-    ).getComponent(),
+    ),
     new Product(
       "0007",
       "product7",
@@ -78,7 +78,7 @@ export const getProducts = (isAdmin: boolean) => {
       "man7",
       "public/images/image.png",
       isAdmin
-    ).getComponent(),
+    ),
     new Product(
       "0008",
       "product8",
@@ -89,7 +89,7 @@ export const getProducts = (isAdmin: boolean) => {
       "man8",
       "public/images/image.png",
       isAdmin
-    ).getComponent(),
+    ),
     new Product(
       "0009",
       "product9",
@@ -100,7 +100,7 @@ export const getProducts = (isAdmin: boolean) => {
       "man9",
       "public/images/image.png",
       isAdmin
-    ).getComponent(),
+    ),
     new Product(
       "0010",
       "product10",
@@ -111,8 +111,16 @@ export const getProducts = (isAdmin: boolean) => {
       "man10",
       "public/images/image.png",
       isAdmin
-    ).getComponent(),
+    ),
   ];
-  
+
+  if(isDelete){
+    console.log('huy');
+    
+    products.splice(startPoint, 1);
+    
+    console.log(products);
+  }
+
   return products;
 };

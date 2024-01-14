@@ -13,6 +13,20 @@
 
 .product-title, .product-price{
     width: 200px;
+    pointer-events: none;
+}
+
+.product-description{
+    pointer-events: none;
+}
+
+.isAdmin{
+    pointer-events: all;
+}
+
+.admin-btns-wrapper{
+    display: flex;
+    gap: 30px;
 }
 
 .closeBtn-wrapper{

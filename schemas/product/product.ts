@@ -31,14 +31,18 @@ export class Product implements IProduct {
       className: 'product-img',
       textContent: 'imageURL',
       events: {
-        dblclick: () => {
+        dblclick: (e) => {
+          if(document.querySelector(".product-info")){
+            app?.removeChild(document.querySelector(".product-info"));            
+          }
+
           const info = {
             title: this.getTitle(),
             price: this.getPrice(),
             description: this.getDescription()
           }
                    
-          const modalWindow = new productModalWindow(isAdmin, info);
+          const modalWindow = new productModalWindow(isAdmin, info, e.target.parentNode);
           append(app, modalWindow.getComponent());
         }
       }

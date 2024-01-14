@@ -11,7 +11,7 @@ export class Shop implements IComponent{
     
     private component: Component;
     private productsWrapper: Component;
-    private products: HTMLElement[];
+    private products: HTMLElement[] = [];
     private productsCount = 5;
     private pageCountWrapper: Component;
 
@@ -19,7 +19,10 @@ export class Shop implements IComponent{
     
     constructor(isAdmin: boolean){
         this.isAdmin = isAdmin;     
-        this.products = getProducts(this.isAdmin);
+        
+        getProducts(this.isAdmin).forEach((el)=>{
+            this.products.push(el.getComponent());
+        });        
 
         this.productsWrapper = new Component({
             tagName: 'div',
