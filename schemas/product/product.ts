@@ -1,8 +1,11 @@
 import { IProduct } from "../../src/interfaces";
-import { Component } from "../../src/core";
+import { Component, append } from "../../src/core";
 import { Button } from "../../components/button/button";
+import { productModalWindow } from "../../components/productModalWindow/productModalWindow";
+
 
 import './product.css'
+import { app } from "../../src/main";
 
 export class Product implements IProduct {
   private component: Component;
@@ -19,13 +22,26 @@ export class Product implements IProduct {
     private price: number,
     private quantity: number,
     private manufacturer: string,
-    private imageURL: string
+    private imageURL: string,
+    private isAdmin: boolean
   ) {
 
     this.productImg = new Component({
       tagName: 'div',
       className: 'product-img',
-      textContent: 'imageURL'
+      textContent: 'imageURL',
+      events: {
+        dblclick: () => {
+          const info = {
+            title: this.getTitle(),
+            price: this.getPrice(),
+            description: this.getDescription()
+          }
+                   
+          const modalWindow = new productModalWindow(isAdmin, info);
+          append(app, modalWindow.getComponent());
+        }
+      }
     })
 
     this.productTitle = new Component({
@@ -87,6 +103,9 @@ export class Product implements IProduct {
   }
   getPrice(): number {
     return this.price;
+  }
+  getIsAdmin(){
+    return this.isAdmin;
   }
   getQuantity(): number {
     return this.quantity;

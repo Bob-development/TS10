@@ -1,10 +1,13 @@
 import { IComponent } from "../../src/interfaces";
 
-import { Component } from "../../src/core";
+import { Component, render } from "../../src/core";
 import { Button } from "../../components/button/button";
 import { Input } from "../../components/input/input";
+import { Spinner } from "../../components/spinner/spinner";
+import { Shop } from "../../app/shop/shop";
 
-import { userData } from "../../utils/userData";
+import { app } from "../../src/main";
+
 
 import './login.css'
 
@@ -13,8 +16,8 @@ export class LogIn implements IComponent{
     private loginInput: Input;
     private passInput: Input;
     private send: Button;
-    private isAdmin: boolean;
-    private isGuest: boolean;
+    private isAdmin: boolean = false;
+    private isGuest: boolean = false;
     
     constructor(){        
         this.loginInput = new Input({
@@ -53,10 +56,11 @@ export class LogIn implements IComponent{
         const isAdmin = this.isAdminData(log, pass);
 
         if(isGuest || isAdmin){
-            //load app
-            
-            console.log('zaebis`');
-            
+            render(app, new Spinner().getComponent())
+
+            setTimeout(() => {
+              render(app, new Shop(this.isAdmin).getComponent());
+            }, 2000)            
         }
     }
 

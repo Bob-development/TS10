@@ -22,6 +22,8 @@ sessionStorage.setItem("adminPass", "Admin@321");
 
 // append(app, form.getComponent())
 
-const reg = new Shop(); 
+// const reg = new Shop(true); 
+// append(app, reg.getComponent())
+const reg = new Shop(true); 
 append(app, reg.getComponent())
 

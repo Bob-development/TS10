@@ -4,10 +4,8 @@ import { Component, render} from "../../src/core";
 import { Button } from "../../components/button/button";
 import { Input } from "../../components/input/input";
 import { Spinner } from "../../components/spinner/spinner";
-import { LogIn } from "../login/login";
 import { Shop } from "../../app/shop/shop";
 
-import { userData } from "../../utils/userData";
 import { specialSymbols, lowerCaseSymbols, upperCaseSymbols } from "../../utils/getSymbols";
 import { app } from "../../src/main";
 
@@ -20,9 +18,9 @@ export class Reg implements IComponent{
     private send: Button;
     private adminLogin: string = sessionStorage.getItem("adminLogin");
     private adminPass: string = sessionStorage.getItem("adminPass");
-    private isGuest: boolean;
+    private isGuest: boolean = false;
     
-    constructor(){        
+    constructor(){              
         this.loginInput = new Input({
             className: 'login-input',
             attrs: {
@@ -70,7 +68,7 @@ export class Reg implements IComponent{
           render(app, new Spinner().getComponent())
 
           setTimeout(() => {
-            render(app, new Shop().getComponent());
+            render(app, new Shop(!this.isGuest).getComponent());
           }, 2000)
       }
     }
