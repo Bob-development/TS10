@@ -1,5 +1,5 @@
 import { Form } from "../app/form/form";
-import { append } from "./core";
+import { Component, append } from "./core";
 import { Reg } from "../schemas/registration/reg";
 import { LogIn } from "../schemas/login/login";
 import { userData } from "../utils/userData";
@@ -24,6 +24,7 @@ sessionStorage.setItem("adminPass", "Admin@321");
 
 // const reg = new Shop(true); 
 // append(app, reg.getComponent())
-const reg = new Shop(true); 
-append(app, reg.getComponent())
+
+const huy = new Shop(true); 
+append(app, huy.getComponent())
 
