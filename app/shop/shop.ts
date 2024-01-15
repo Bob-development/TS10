@@ -23,10 +23,6 @@ export class Shop implements IComponent{
             this.products.push(el.getComponent());
         });
 
-        // for(let i = 0; i < getProducts().length - 2; i++){
-        //     getProducts().pop();
-        // }
-
         this.productsWrapper = new Component({
             tagName: 'div',
             className: 'products-wrapper'
