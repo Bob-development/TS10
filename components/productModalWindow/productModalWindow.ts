@@ -8,6 +8,7 @@ import { app } from "../../src/main";
 import { getProducts } from "../../utils/getProducts";
 
 import './productModalWindow.css'
+import { getShop } from "../../utils/getShop";
 
 export class productModalWindow implements IComponent {
     private component: Component;
@@ -21,7 +22,7 @@ export class productModalWindow implements IComponent {
     
     
     constructor(isAdmin:boolean, productInfo: object, clickedProductInDOM: HTMLElement){        
-        this.products = getProducts(isAdmin);
+        this.products = getProducts();
         
         this.title = new Input({
             className: 'product-title',
@@ -68,7 +69,7 @@ export class productModalWindow implements IComponent {
         if(isAdmin){
             const clickedProductInData = getProducts(isAdmin).filter((el) => el.getTitle() === productInfo.title)[0];            
             
-            this.updateIfIsAdmin(clickedProductInData, clickedProductInDOM, isAdmin);
+            this.updateIfIsAdmin(clickedProductInData);
             
             this.getPrice().classList.add('isAdmin');
             this.getTitle().classList.add('isAdmin');
@@ -77,30 +78,25 @@ export class productModalWindow implements IComponent {
         }
     }
 
-    updateIfIsAdmin(clickedProductInData: Product, clickedProductInDOM: HTMLElement, isAdmin: boolean){
+    updateIfIsAdmin(clickedProductInData: Product){
         const aplyBtn = new Button({
             className: 'aply-btn',
             textContent: 'Aply',
             events: {
                 click: (e) => {
-                    clickedProductInData.setTitle(this.getTitle().value);
-                    clickedProductInData.setPrice(this.getPrice().value);
-                    clickedProductInData.setDescription(this.getDescription().value);
-                    
+                    const index = this.products.indexOf(clickedProductInData);
 
-                    const newProduct = new Product(
-                        clickedProductInData.getID(),
-                        clickedProductInData.getTitle(),
-                        clickedProductInData.getAvailability(),
-                        clickedProductInData.getDescription(),
-                        clickedProductInData.getPrice(),
-                        clickedProductInData.getQuantity(),
-                        clickedProductInData.getManufacturer(),
-                        clickedProductInData.getImageURL(),
-                        clickedProductInData.getIsAdmin()
-                    )                    
+                    const product = getProducts()[index]
+
+
+                    product.setTitle(this.getTitle().value);
+                    product.setPrice(this.getPrice().value);
+                    product.setDescription(this.getDescription().value);
+
+                    console.log(getProducts());
                     
-                    render(clickedProductInDOM, newProduct.getComponent())
+                    getShop().showProducts();
+                    
                     app?.removeChild(e.target.parentNode.parentNode);
                 }
             }
@@ -111,21 +107,11 @@ export class productModalWindow implements IComponent {
             textContent: 'Delete',
             events: {
                 click: (e) => {
-                    // this.products = this.products.filter((el) => el.getTitle() !== clickedProductInData.getTitle());
+                    const index = this.products.indexOf(clickedProductInData);
 
-                    this.products.forEach((el) => {
-                        if(el.getTitle() === clickedProductInData.getTitle()){
-                            const indexOfProductDelete = this.products.indexOf(el);
-                            // console.log(indexOfProductDelete);
-                            
-                            getProducts(isAdmin, true, indexOfProductDelete);                            
-                        }
-                    })
-                    
-                    // console.log(getProducts(isAdmin));
-                    
+                    getProducts().splice(index, 1);
 
-                    clickedProductInDOM.parentNode?.removeChild(clickedProductInDOM);
+                    getShop().showProducts();
 
                     app?.removeChild(e.target.parentNode.parentNode);
                 }

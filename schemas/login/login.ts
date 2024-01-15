@@ -4,12 +4,13 @@ import { Component, render } from "../../src/core";
 import { Button } from "../../components/button/button";
 import { Input } from "../../components/input/input";
 import { Spinner } from "../../components/spinner/spinner";
-import { Shop } from "../../app/shop/shop";
+import { getShop } from "../../utils/getShop";
 
 import { app } from "../../src/main";
 
 
 import './login.css'
+import { setStatus } from "../../utils/status";
 
 export class LogIn implements IComponent{
     private component: Component;
@@ -17,7 +18,6 @@ export class LogIn implements IComponent{
     private passInput: Input;
     private send: Button;
     private isAdmin: boolean = false;
-    private isGuest: boolean = false;
     
     constructor(){        
         this.loginInput = new Input({
@@ -59,8 +59,8 @@ export class LogIn implements IComponent{
             render(app, new Spinner().getComponent())
 
             setTimeout(() => {
-              render(app, new Shop(this.isAdmin).getComponent());
-            }, 2000)            
+              render(app, getShop().getComponent());
+            }, 2000)
         }
     }
 
@@ -69,8 +69,7 @@ export class LogIn implements IComponent{
         const password = pass === sessionStorage.getItem("guestPass") ? true : false;
 
         if(login && password){
-            this.isGuest = true;
-            console.log('guest', this.isGuest);
+            console.log('guest', !this.isGuest);
 
             return this.isGuest;
         }
@@ -82,6 +81,8 @@ export class LogIn implements IComponent{
 
         if(login && password){
             this.isAdmin = true;
+            setStatus(true);
+
             console.log('admin', this.isAdmin);
 
             return this.isAdmin;

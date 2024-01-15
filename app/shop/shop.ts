@@ -3,12 +3,11 @@ import { IComponent } from "../../src/interfaces";
 import { Component, append, render} from "../../src/core";
 import { Button } from "../../components/button/button";
 import { getProducts } from "../../utils/getProducts";
+import { getStatus } from "../../utils/status";
 
 import './shop.css'
 
-export class Shop implements IComponent{
-    private isAdmin: boolean;
-    
+export class Shop implements IComponent{    
     private component: Component;
     private productsWrapper: Component;
     private products: HTMLElement[] = [];
@@ -17,12 +16,16 @@ export class Shop implements IComponent{
 
     private DEFAULT_PAGE_NUM = 1;
     
-    constructor(isAdmin: boolean){
-        this.isAdmin = isAdmin;     
+    constructor(){
+        this.isAdmin = getStatus();
         
-        getProducts(this.isAdmin).forEach((el)=>{
+        getProducts().forEach((el)=>{
             this.products.push(el.getComponent());
-        });        
+        });
+
+        // for(let i = 0; i < getProducts().length - 2; i++){
+        //     getProducts().pop();
+        // }
 
         this.productsWrapper = new Component({
             tagName: 'div',
@@ -43,6 +46,12 @@ export class Shop implements IComponent{
         })
         
         this.setPageCount(this.productsCount)
+    }
+
+    showProducts(){
+        this.products = getProducts().map((el) => el.getComponent());
+
+        this.setPagination(this.products, this.DEFAULT_PAGE_NUM, this.productsCount);
     }
 
     setPageCount(productsCount: number){

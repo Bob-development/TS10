@@ -3,9 +3,9 @@ import { Component, append } from "../../src/core";
 import { Button } from "../../components/button/button";
 import { productModalWindow } from "../../components/productModalWindow/productModalWindow";
 
-
-import './product.css'
+import { getStatus } from "../../utils/status";
 import { app } from "../../src/main";
+import './product.css'
 
 export class Product implements IProduct {
   private component: Component;
@@ -23,7 +23,6 @@ export class Product implements IProduct {
     private quantity: number,
     private manufacturer: string,
     private imageURL: string,
-    private isAdmin: boolean
   ) {
 
     this.productImg = new Component({
@@ -42,7 +41,7 @@ export class Product implements IProduct {
             description: this.getDescription()
           }
                    
-          const modalWindow = new productModalWindow(isAdmin, info, e.target.parentNode);
+          const modalWindow = new productModalWindow(getStatus(), info, e.target.parentNode);
           append(app, modalWindow.getComponent());
         }
       }
@@ -108,9 +107,6 @@ export class Product implements IProduct {
   getPrice(): number {
     return this.price;
   }
-  getIsAdmin(){
-    return this.isAdmin;
-  }
   getQuantity(): number {
     return this.quantity;
   }
@@ -123,6 +119,7 @@ export class Product implements IProduct {
   // --- set
   setTitle(title: string): void {
     this.title = title;
+    this.getComponent().children[1].textContent = this.title;
   }
   setAvailability(isAvailable: boolean): void {
     this.isAvailable = isAvailable;
@@ -132,6 +129,7 @@ export class Product implements IProduct {
   }
   setPrice(price: number): void {
     this.price = price;
+    this.getComponent().children[2].textContent = `${price} $`;
   }
   setQuantity(quantity: number): void {
     this.quantity = quantity;
